@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { User, KeyRound } from "lucide-vue-next"
 import { useAuthStore } from '../stores/auth'
 import axios from 'axios'
 import Swal from 'sweetalert2'
@@ -68,17 +69,19 @@ const handleLogin = async () => {
 const goToRegister = () => {
     router.push('/register')
 }
+
+const goToHome = () => {
+    router.push('/')
+}
 </script>
 
 <template>
-    <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-300 via-green-300 to-lime-100">
         <div class="max-w-md w-full space-y-8 p-8">
             <div class="bg-white rounded-2xl shadow-xl p-8">
                 <div class="text-center mb-8">
-                    <div class="mx-auto h-16 w-16 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
-                        <svg class="h-8 w-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                        </svg>
+                    <div class="mx-auto h-16 w-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                        <User  class="text-green-500 h-7 w-7"/>
                     </div>
                     <h2 class="text-3xl font-bold text-gray-900 mb-2">
                         ยินดีต้อนรับ
@@ -92,9 +95,7 @@ const goToRegister = () => {
                             <label for="username" class="block text-sm font-medium text-gray-700 mb-2">ชื่อผู้ใช้</label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                    </svg>
+                                    <User  class="w-5 h-5 text-gray-500"/>
                                 </div>
                                 <input 
                                     id="username" 
@@ -111,9 +112,7 @@ const goToRegister = () => {
                             <label for="password" class="block text-sm font-medium text-gray-700 mb-2">รหัสผ่าน</label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v2m0-2h2m-2 0H10m2-7a3 3 0 100-6 3 3 0 000 6zm0 0a9 9 0 019 9H3a9 9 0 019-9z"></path>
-                                    </svg>
+                                    <KeyRound class="w-5 h-5 text-gray-500"/>
                                 </div>
                                 <input 
                                     id="password" 
@@ -135,7 +134,7 @@ const goToRegister = () => {
                         <button
                             type="submit"
                             :disabled="loading"
-                            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition duration-200 transform hover:scale-105"
+                            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition duration-200 transform hover:scale-105"
                         >
                             <svg v-if="loading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -144,7 +143,15 @@ const goToRegister = () => {
                             {{ loading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ' }}
                         </button>
 
-                        <div class="relative">
+                        <button
+                            type="button"
+                            @click="goToHome"
+                            class="w-full flex justify-center py-3 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200"
+                        >
+                            กลับหน้าแรก
+                        </button>
+
+                        <!-- <div class="relative">
                             <div class="absolute inset-0 flex items-center">
                                 <div class="w-full border-t border-gray-300"></div>
                             </div>
@@ -162,18 +169,18 @@ const goToRegister = () => {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
                             </svg>
                             สมัครสมาชิก
-                        </button>
+                        </button> -->
                     </div>
                 </form>
 
-                <div class="mt-6 text-center">
+                <!-- <div class="mt-6 text-center">
                     <p class="text-xs text-gray-500">
                         การเข้าสู่ระบบถือว่าคุณยอมรับ
                         <a href="#" class="text-indigo-600 hover:text-indigo-500">เงื่อนไขการใช้งาน</a>
                         และ
                         <a href="#" class="text-indigo-600 hover:text-indigo-500">นโยบายความเป็นส่วนตัว</a>
                     </p>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

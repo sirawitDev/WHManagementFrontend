@@ -7,8 +7,8 @@ module.exports = {
       },
     },
   },
-  plugins: [require('daisyui')],
-  daisyui: {
-    themes: ['bumblebee'],
-  },
+  plugins: [],
+  // daisyui: {
+  //   themes: ['bumblebee'],
+  // },
 }
