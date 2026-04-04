@@ -31,16 +31,67 @@ const searchQuery = ref('')
 const currentPage = ref(1)
 const itemsPerPage = 5
 
+/** Lowercase text + normalized (no spaces/hyphens) for location-style codes e.g. 171-0101 vs 1710101 */
+function normalizeLoose(s) {
+    return String(s || '')
+        .toLowerCase()
+        .replace(/[\s\-_]/g, '')
+}
+
+/** All searchable location strings for a material (code, name, id variants from API). */
+function materialLocationSearchParts(m) {
+    const parts = []
+    const wl = m.warehouseLocation
+    const locs = locationWhStore.locations
+
+    if (wl == null || wl === '') return parts
+
+    if (typeof wl === 'string') {
+        parts.push(wl)
+        const byId = locs.find(l => String(l._id) === String(wl))
+        const byCode = locs.find(l => l.code === wl)
+        const loc = byId || byCode
+        if (loc) {
+            if (loc.code) parts.push(loc.code)
+            if (loc.name) parts.push(loc.name)
+        }
+    } else if (typeof wl === 'object') {
+        if (wl.code) parts.push(wl.code)
+        if (wl.name) parts.push(wl.name)
+        if (wl._id) {
+            const loc = locs.find(l => String(l._id) === String(wl._id))
+            if (loc) {
+                if (loc.code) parts.push(loc.code)
+                if (loc.name) parts.push(loc.name)
+            }
+        }
+    }
+
+    return parts.map(p => String(p).trim()).filter(Boolean)
+}
+
 // Filtered materials
 const filteredMaterials = computed(() => {
     const q = searchQuery.value.toLowerCase().trim()
     if (!q) return materialStore.materials
-    return materialStore.materials.filter(m =>
-        (m.code || '').toLowerCase().includes(q) ||
-        (m.productName || '').toLowerCase().includes(q) ||
-        (m.ownerName || '').toLowerCase().includes(q) ||
-        (m.warehouseLocation || '').toLowerCase().includes(q)
-    )
+    const qLoose = normalizeLoose(q)
+
+    return materialStore.materials.filter(m => {
+        if (
+            (m.code || '').toLowerCase().includes(q) ||
+            (m.productName || '').toLowerCase().includes(q) ||
+            (m.ownerName || '').toLowerCase().includes(q)
+        ) {
+            return true
+        }
+
+        const locParts = materialLocationSearchParts(m)
+        const locHaystack = locParts.join(' ').toLowerCase()
+        if (locHaystack.includes(q)) return true
+        if (qLoose && normalizeLoose(locHaystack).includes(qLoose)) return true
+
+        return false
+    })
 })
 
 // Pagination
@@ -213,10 +264,10 @@ const handleSubmit = async () => {
         await Swal.fire({ icon: 'warning', title: 'Please enter the material code' })
         return
     }
-    if (!formData.value.ownerName) {
-        await Swal.fire({ icon: 'warning', title: 'Please select the owner' })
-        return
-    }
+    // if (!formData.value.ownerName) {
+    //     await Swal.fire({ icon: 'warning', title: 'Please select the owner' })
+    //     return
+    // }
     if (!formData.value.unitId) {
         await Swal.fire({ icon: 'warning', title: 'Please select the unit' })
         return
@@ -361,7 +412,7 @@ onMounted(async () => {
                 <div class="relative w-full">
                     <Search
                         class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-                    <input v-model="searchQuery" type="text" placeholder="Search code, name, owner, location..."
+                    <input v-model="searchQuery" type="text" placeholder="Search code, name, vendor, location..."
                         class="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
                 </div>
 
@@ -389,7 +440,7 @@ onMounted(async () => {
                             <tr class="bg-gradient-to-r from-[#14158C] to-[#1a1aa3]">
                                 <th class="px-6 py-4 text-left text-sm font-semibold text-white">Material Code</th>
                                 <th class="px-6 py-4 text-left text-sm font-semibold text-white">Name</th>
-                                <th class="px-6 py-4 text-left text-sm font-semibold text-white">Owner</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-white">Vendor</th>
                                 <th class="px-6 py-4 text-center text-sm font-semibold text-white">Quantity</th>
                                 <th class="px-6 py-4 text-left text-sm font-semibold text-white">Unit</th>
                                 <th class="px-6 py-4 text-left text-sm font-semibold text-white">Location</th>
@@ -480,7 +531,7 @@ onMounted(async () => {
                             </div>
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <p class="text-xs text-gray-500 uppercase">Owner</p>
+                                    <p class="text-xs text-gray-500 uppercase">Vendor</p>
                                     <span
                                         class="inline-flex items-center mt-1 bg-green-50 text-green-700 border border-green-200 px-2 py-0.5 rounded-md text-xs font-semibold">
                                         {{ vendorStore.getVendorNameByCode(material.ownerName) || '-' }}
@@ -593,8 +644,8 @@ onMounted(async () => {
                             </div>
                             <div>
                                 <SearchableSelect v-model="formData.ownerName" :options="vendorStore.vendors"
-                                    value-key="code" label-key="name" label="Owner" placeholder="-- Select owner --"
-                                    search-placeholder="Search owner..." name="vendor-select" :required="true" />
+                                    value-key="code" label-key="name" label="Vendor" placeholder="-- Select vendor --"
+                                    search-placeholder="Search vendor..." name="vendor-select" :required="true" />
                             </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

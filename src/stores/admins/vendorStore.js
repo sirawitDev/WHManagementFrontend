@@ -135,7 +135,7 @@ export const useVendorStore = defineStore('vendor', {
         },
         getVendorNameByCode: (state) => (code) => {
             const vendor = state.vendors.find(v => v.code === code)
-            return vendor ? vendor.name : code // fallback
+            return vendor ? vendor.name : code 
         },
         totalVendors: (state) => state.vendors.length
     }

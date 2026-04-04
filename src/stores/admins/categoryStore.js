@@ -121,6 +121,12 @@ export const useCategoryStore = defineStore('category', {
         getCategoryById: (state) => (id) => {
             return state.categories.find(cat => cat._id === id)
         },
-        totalCategories: (state) => state.categories.length
+        totalCategories: (state) => state.categories.length,
+        getCategoryNameById: (state) => (id) => {
+            const category = state.categories.find(cat => cat._id === id)
+            return category ? category.name : '-'
+        },
+        getCategoryNameByCode: (state) => (code) =>
+            state.categories.find(cat => cat.code === code)?.name || '-'
     }
 })

@@ -121,6 +121,10 @@ export const useMaterialStore = defineStore('material', {
         getMaterialById: (state) => (id) => {
             return state.materials.find(mat => mat._id === id)
         },
-        totalMaterials: (state) => state.materials.length
+        totalMaterials: (state) => state.materials.length,
+        getMaterialNameById: (state) => (id) => {
+            const material = state.materials.find(mat => mat._id === id)
+            return material ? material.name : '-'
+        },
     }
 })

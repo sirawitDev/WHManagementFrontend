@@ -4,7 +4,7 @@ import { useAuthStore } from '../stores/auth'
 import { RouterLink } from 'vue-router'
 // ...existing code...
 // import icons from lucide-vue-next
-import { LayoutDashboard, Boxes, FileBarChart2, Settings, LogIn, User } from 'lucide-vue-next'
+import { LayoutDashboard, Boxes, FileBarChart2, Settings,PackageSearch, LogIn, User } from 'lucide-vue-next'
 const authStore = useAuthStore()
 
 const showAside = ref(false)
@@ -81,6 +81,13 @@ onUnmounted(() => {
                     <span class="flex items-center gap-2">
                         <Boxes class="w-5 h-5" />
                         <p>จัดการวัสดุ / อุปกรณ์</p>
+                    </span>
+                </RouterLink>
+
+                <RouterLink to="/reports/stock" class="block cursor-pointer w-full px-3 py-2 rounded-lg hover:bg-[#DDE0FF] text-[#14158C] font-medium transition-colors border-2 border-[#14158C]">
+                    <span class="flex items-center gap-2">
+                        <PackageSearch class="w-5 h-5" />
+                        <p>รายงาน Stock</p>
                     </span>
                 </RouterLink>
 

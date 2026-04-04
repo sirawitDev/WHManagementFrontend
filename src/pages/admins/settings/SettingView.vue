@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { Settings, Users } from 'lucide-vue-next'
+import { Settings, Users , FolderCog } from 'lucide-vue-next'
 import AdminLayout from '../../../layouts/AdminLayout.vue'
 import Swal from 'sweetalert2'
 import { useUnitStore } from '../../../stores/admins/unitStore'
@@ -276,14 +276,33 @@ onMounted(() => {
 <template>
     <AdminLayout>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-            <!-- Header -->
-            <div class="mb-8">
-                <p class="text-center text-2xl sm:text-3xl font-bold text-[#14158C]">
-                    Configure System Information.
-                </p>
+
+            <div>
+                <div class="p-4 text-white flex justify-between" style="
+                        background: linear-gradient(135deg, #14158C 0%, #1e3a8a 50%, #1d4ed8 100%);
+                        border-radius: 1rem;
+                        box-shadow: 0 4px 20px rgba(20, 21, 140, 0.3);
+            ">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 
+                    bg-white/15 
+                    rounded-xl 
+                    flex items-center justify-center 
+                    backdrop-blur-sm 
+                    shrink-0">
+                            <FolderCog class="w-5 h-5 text-white"/>
+                        </div>
+
+                        <div>
+                            <p class="text-white font-semibold text-xl">
+                                Configure System Information.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4 lg:gap-6">
+            <div class="mt-7 space-y-4 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-4 lg:gap-6">
                 <CategorySection @open-modal="openModal" class="self-start" />
 
                 <UnitSection @open-modal="openModal" class="self-start" />

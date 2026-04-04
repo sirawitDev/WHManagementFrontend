@@ -76,12 +76,12 @@ const goToHome = () => {
 </script>
 
 <template>
-    <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-300 via-green-300 to-lime-100">
+    <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-blue-200 to-indigo-300">
         <div class="max-w-md w-full space-y-8 p-8">
             <div class="bg-white rounded-2xl shadow-xl p-8">
                 <div class="text-center mb-8">
-                    <div class="mx-auto h-16 w-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                        <User  class="text-green-500 h-7 w-7"/>
+                    <div class="mx-auto h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                        <User class="text-blue-600 h-7 w-7"/>
                     </div>
                     <h2 class="text-3xl font-bold text-gray-900 mb-2">
                         ยินดีต้อนรับ
@@ -95,14 +95,14 @@ const goToHome = () => {
                             <label for="username" class="block text-sm font-medium text-gray-700 mb-2">ชื่อผู้ใช้</label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <User  class="w-5 h-5 text-gray-500"/>
+                                    <User class="w-5 h-5 text-gray-400"/>
                                 </div>
                                 <input 
                                     id="username" 
                                     v-model="formData.username" 
                                     type="text" 
                                     required
-                                    class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
+                                    class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                                     placeholder="กรอกชื่อผู้ใช้" 
                                 />
                             </div>
@@ -112,14 +112,14 @@ const goToHome = () => {
                             <label for="password" class="block text-sm font-medium text-gray-700 mb-2">รหัสผ่าน</label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <KeyRound class="w-5 h-5 text-gray-500"/>
+                                    <KeyRound class="w-5 h-5 text-gray-400"/>
                                 </div>
                                 <input 
                                     id="password" 
                                     v-model="formData.password" 
                                     type="password" 
                                     required
-                                    class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
+                                    class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                                     placeholder="กรอกรหัสผ่าน" 
                                 />
                             </div>
@@ -134,7 +134,7 @@ const goToHome = () => {
                         <button
                             type="submit"
                             :disabled="loading"
-                            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition duration-200 transform hover:scale-105"
+                            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition duration-200 transform hover:scale-105"
                         >
                             <svg v-if="loading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -146,41 +146,12 @@ const goToHome = () => {
                         <button
                             type="button"
                             @click="goToHome"
-                            class="w-full flex justify-center py-3 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200"
+                            class="w-full flex justify-center py-3 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200"
                         >
                             กลับหน้าแรก
                         </button>
-
-                        <!-- <div class="relative">
-                            <div class="absolute inset-0 flex items-center">
-                                <div class="w-full border-t border-gray-300"></div>
-                            </div>
-                            <div class="relative flex justify-center text-sm">
-                                <span class="px-2 bg-white text-gray-500">หรือ</span>
-                            </div>
-                        </div>
-
-                        <button
-                            type="button"
-                            @click="goToRegister"
-                            class="w-full flex justify-center py-3 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200"
-                        >
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
-                            </svg>
-                            สมัครสมาชิก
-                        </button> -->
                     </div>
                 </form>
-
-                <!-- <div class="mt-6 text-center">
-                    <p class="text-xs text-gray-500">
-                        การเข้าสู่ระบบถือว่าคุณยอมรับ
-                        <a href="#" class="text-indigo-600 hover:text-indigo-500">เงื่อนไขการใช้งาน</a>
-                        และ
-                        <a href="#" class="text-indigo-600 hover:text-indigo-500">นโยบายความเป็นส่วนตัว</a>
-                    </p>
-                </div> -->
             </div>
         </div>
     </div>

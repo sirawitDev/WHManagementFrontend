@@ -134,6 +134,10 @@ export const useBusinessPartnerStore = defineStore('businessPartner', {
         getBusinessPartnerById: (state) => (id) => {
             return state.businessPartners.find(bp => bp._id === id)
         },
+        getBusinessPartnerNameByCode: (state) => (code) => {
+            const bp = state.businessPartners.find(b => b.code === code)
+            return bp ? bp.name : (code ?? '-')
+        },
         totalBusinessPartners: (state) => state.businessPartners.length
     }
 })
