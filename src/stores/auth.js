@@ -56,6 +56,7 @@ export const useAuthStore = defineStore("auth", () => {
             };
 
             console.log("userrrrrr", user.value);
+            console.log("userrole", user.value.role);
 
 
             token.value = userData.token || null;
@@ -79,6 +80,9 @@ export const useAuthStore = defineStore("auth", () => {
             switch (user.value.role) {
                 case "admin":
                     router.push("/admin");
+                    break;
+                case "checker":
+                    router.push("/checker/dashboard");
                     break;
                 default:
                     router.push("/home");
