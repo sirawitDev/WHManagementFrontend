@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { useAuthStore } from '../stores/auth'
 import { RouterLink } from 'vue-router'
+import { LayoutDashboard } from 'lucide-vue-next'
 
 const authStore = useAuthStore()
 
@@ -23,12 +24,10 @@ onMounted(() => {
 
 <template>
     <div class="">
-        <!-- Backdrop for aside -->
         <transition name="fade">
             <div v-if="showAside" class="fixed inset-0 bg-black bg-opacity-30 z-30" @click="showAside = false"></div>
         </transition>
 
-        <!-- Sidebar Menu -->
         <transition name="slide">
             <aside v-if="showAside" class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-40 flex flex-col">
                 <div class="flex items-center justify-between px-4 py-4 border-b">
@@ -52,7 +51,6 @@ onMounted(() => {
             </aside>
         </transition>
 
-        <!-- Navbar -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white border-2 shadow-md rounded-xl mt-3 sticky top-0 z-20">
                 <div class="flex items-center justify-between px-4 py-3">
@@ -68,17 +66,27 @@ onMounted(() => {
 
                         <div class="">
                             <a href="/"
-                                class="text-xl font-bold text-green-700 hover:text-emerald-800 transition-colors">
+                                class="text-xl font-bold text-blue-700 hover:text-blue-800 transition-colors">
                                 Warehouse
                             </a>
                         </div>
                     </div>
                     <div class="flex items-center">
+                        <RouterLink to="/admin/dashboard" v-if="authStore.user.role === 'admin'"
+                            class="inline-flex mr-5 items-center gap-2 rounded-lg border-2 border-blue-600 bg-white px-4 py-2 text-sm font-semibold text-blue-700 shadow-sm transition-colors hover:bg-blue-50 hover:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            <LayoutDashboard />
+                            Admin Management
+                        </RouterLink>
+                        <RouterLink to="/checker/dashboard" v-if="authStore.user.role === 'checker'"
+                            class="inline-flex mr-5 items-center gap-2 rounded-lg border-2 border-blue-600 bg-white px-4 py-2 text-sm font-semibold text-blue-700 shadow-sm transition-colors hover:bg-blue-50 hover:border-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            <LayoutDashboard />
+                            Checker Management
+                        </RouterLink>
                         <div v-if="authStore.isAuthenticated === false" class="flex gap-2">
                             <div>
                                 <RouterLink to="/login"
-                                    class="bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-lg shadow transition-colors cursor-pointer">
-                                    เข้าสู่ระบบจัดการ
+                                    class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg shadow transition-colors cursor-pointer">
+                                    Login to manage
                                 </RouterLink>
                             </div>
                         </div>
@@ -92,10 +100,9 @@ onMounted(() => {
                                 </div>
                             </button>
 
-                            <!-- Dropdown menu -->
                             <div v-if="showUserMenu"
                                 class="absolute right-0 mt-2 w-52 bg-white rounded-lg shadow-lg border z-30 py-1">
-                                <a href="/profile"
+                                <!-- <a href="/profile"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
                                     Profile
                                     <span
@@ -104,7 +111,7 @@ onMounted(() => {
                                 <a href="/settings"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
                                     Settings
-                                </a>
+                                </a> -->
                                 <hr class="my-1">
                                 <button @click="authStore.logout()"
                                     class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
@@ -124,7 +131,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/* Fade transition for backdrop */
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.2s ease;
@@ -135,7 +141,6 @@ onMounted(() => {
     opacity: 0;
 }
 
-/* Slide transition for sidebar */
 .slide-enter-active,
 .slide-leave-active {
     transition: transform 0.2s ease;

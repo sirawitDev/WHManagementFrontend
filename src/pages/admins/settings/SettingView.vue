@@ -38,7 +38,6 @@ const formData = ref({
     businessType: ''
 })
 
-// Modal configurations
 const modalConfigs = {
     category: {
         title: 'Add a category',
@@ -78,7 +77,6 @@ const modalConfigs = {
     }
 }
 
-// Open modal
 const openModal = (type, item = null) => {
     currentSettingType.value = type
 
@@ -131,7 +129,6 @@ const openModal = (type, item = null) => {
     showModal.value = true
 }
 
-// Close modal
 const closeModal = () => {
     showModal.value = false
     currentSettingType.value = ''
@@ -139,7 +136,6 @@ const closeModal = () => {
     editId.value = null
 }
 
-// Submit form
 const submitForm = async () => {
     if (!formData.value.name.trim()) {
         await Swal.fire({
@@ -332,7 +328,6 @@ onMounted(() => {
             </div>
         </div>
 
-        <!-- Modal (same as before) -->
         <div v-if="showModal" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog"
             aria-modal="true">
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" @click="closeModal"></div>

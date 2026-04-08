@@ -291,7 +291,6 @@ onMounted(async () => {
 <template>
     <div v-if="modelValue" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-6xl max-h-[90vh] overflow-y-auto">
-            <!-- Modal Header -->
             <div class="sticky top-0 bg-white border-b px-4 sm:px-6 py-4 flex justify-between items-center">
                 <div>
                     <h2 class="text-lg sm:text-xl font-semibold text-gray-800">Create New Goods Issue</h2>
@@ -304,14 +303,13 @@ onMounted(async () => {
                 </button>
             </div>
 
-            <!-- Modal Body -->
             <div class="p-4 sm:p-6">
                 <div class="flex border-b border-gray-200 mb-4">
                     <button @click="activeTab = 'search'" :class="[
                         'px-4 py-2 text-sm font-medium transition',
                         activeTab === 'search'
-                            ? 'border-b-2 border-blue-500 text-blue-600'
-                            : 'text-gray-500 hover:text-blue-500'
+                            ? 'border-b-2 border-green-500 text-green-600'
+                            : 'text-gray-500 hover:text-green-500'
                     ]">
                         Search
                     </button>
@@ -319,16 +317,14 @@ onMounted(async () => {
                     <button @click="activeTab = 'category'" :class="[
                         'px-4 py-2 text-sm font-medium transition',
                         activeTab === 'category'
-                            ? 'border-b-2 border-blue-500 text-blue-600'
-                            : 'text-gray-500 hover:text-blue-500'
+                            ? 'border-b-2 border-green-500 text-green-600'
+                            : 'text-gray-500 hover:text-green-500'
                     ]">
                         Category
                     </button>
                 </div>
 
-                <!-- Category Selection Section -->
                 <div v-if="activeTab === 'category'" class="mb-6 bg-gray-50 p-4 rounded-lg">
-                    <!-- Category content (same as original) -->
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
                         <label class="text-sm font-medium text-gray-700">
                             Document Categories (เลือกหมวดหมู่ของเอกสาร)
@@ -337,7 +333,7 @@ onMounted(async () => {
                         </label>
                         <div class="flex gap-2">
                             <button @click="selectAllCategories"
-                                class="text-xs bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition">
+                                class="text-xs bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition">
                                 Select All
                             </button>
                             <button @click="clearCategories"
@@ -349,9 +345,9 @@ onMounted(async () => {
 
                     <div class="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                         <label v-for="category in categoryStore.categories" :key="category._id"
-                            class="flex items-center space-x-2 p-2 bg-white rounded-lg border border-gray-200 hover:bg-blue-50 transition cursor-pointer">
+                            class="flex items-center space-x-2 p-2 bg-white rounded-lg border border-gray-200 hover:bg-green-50 transition cursor-pointer">
                             <input type="checkbox" :value="category.code" v-model="selectedCategories"
-                                class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500" />
+                                class="w-4 h-4 text-green-600 rounded focus:ring-green-500" />
                             <span class="text-sm text-gray-700">{{ category.name }}</span>
                         </label>
                     </div>
@@ -369,9 +365,9 @@ onMounted(async () => {
                         <div v-if="showCategoryDropdown"
                             class="mt-2 bg-white border border-gray-300 rounded-lg max-h-60 overflow-y-auto">
                             <label v-for="category in categoryStore.categories" :key="category._id"
-                                class="flex items-center space-x-2 p-3 border-b border-gray-100 hover:bg-blue-50 transition cursor-pointer">
+                                class="flex items-center space-x-2 p-3 border-b border-gray-100 hover:bg-green-50 transition cursor-pointer">
                                 <input type="checkbox" :value="category.name" v-model="selectedCategories"
-                                    class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500" />
+                                    class="w-4 h-4 text-blugreene-600 rounded focus:ring-green-500" />
                                 <span class="text-sm text-gray-700">{{ category.name }}</span>
                             </label>
                         </div>
@@ -381,7 +377,7 @@ onMounted(async () => {
                         <p class="text-xs text-gray-500 mb-2">Selected Categories:</p>
                         <div class="flex flex-wrap gap-2">
                             <span v-for="cat in selectedCategories" :key="cat"
-                                class="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded">
+                                class="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 text-xs rounded">
                                 {{ categoryStore.getCategoryNameByCode(cat) }}
                                 <button @click="toggleCategory(cat)" class="hover:text-red-900">
                                     <X class="w-3 h-3 text-red-500" />
@@ -391,9 +387,7 @@ onMounted(async () => {
                     </div>
                 </div>
 
-                <!-- Search Section -->
                 <div v-if="activeTab === 'search'" class="mb-6 bg-gray-50 p-4 rounded-lg">
-                    <!-- Search content (same as original) -->
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         Search and Add Materials
                         <span class="text-xs text-gray-500 ml-2">(Type code or name, then click to add)</span>
@@ -404,14 +398,14 @@ onMounted(async () => {
                                 <input v-model="searchCode" @input="onSearchInput" @focus="showDropdown = true"
                                     @blur="onInputBlur" @keydown="handleKeydown" type="text"
                                     placeholder="Type material code or name to search and add…"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
 
                                 <div v-if="showDropdown && filteredMaterials.length > 0"
                                     class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                                     <div v-for="(material, idx) in filteredMaterials" :key="material._id"
                                         @click="selectAndAddMaterial(material)" :class="[
-                                            'px-3 py-2 cursor-pointer hover:bg-blue-50 transition',
-                                            idx === selectedIndex ? 'bg-blue-100' : ''
+                                            'px-3 py-2 cursor-pointer hover:bg-green-50 transition',
+                                            idx === selectedIndex ? 'bg-green-100' : ''
                                         ]">
                                         <div class="flex justify-between items-center">
                                             <div class="flex-1">
@@ -456,7 +450,7 @@ onMounted(async () => {
                         <div class="w-full sm:w-1/2">
                             <p class="text-sm font-medium text-gray-600 mb-2">Vendor Reference</p>
                             <input type="text" v-model="vendorReference"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                                 placeholder="Enter vendor reference" />
                         </div>
                     </div>
@@ -465,15 +459,13 @@ onMounted(async () => {
                         <div class="mt-2">
                             <p class="text-sm font-medium text-gray-600 mb-2">Remark</p>
                             <input type="text" v-model="remark" placeholder="Enter remark"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></input>
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"></input>
                         </div>
                     </div>
                 </div>
 
-                <!-- Items Table (same as original) -->
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
-                        <!-- Table content same as original -->
                         <thead class="bg-gray-50">
                             <tr>
                                 <th
@@ -515,7 +507,7 @@ onMounted(async () => {
                                         <input v-model.number="item.quantity"
                                             @input="updateQuantity(item, $event.target.value)" type="number" min="1"
                                             :max="item.quantityInStock" :class="[
-                                                'w-20 px-2 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500',
+                                                'w-20 px-2 py-1 border rounded focus:outline-none focus:ring-2 focus:ring-green-500',
                                                 quantityErrors[item.id] ? 'border-red-500 bg-red-50' : 'border-gray-300'
                                             ]" />
                                         <p v-if="quantityErrors[item.id]" class="text-red-600 text-xs mt-1">
@@ -555,7 +547,7 @@ onMounted(async () => {
                                 </td>
                                 <td class="px-4 py-3 text-sm">
                                     <input v-model="item.remark" type="text" placeholder="หมายเหตุ"
-                                        class="w-32 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                        class="w-32 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500" />
                                 </td>
                                 <td class="px-4 py-3 text-sm">
                                     <button @click="removeItem(item.id)"
@@ -577,21 +569,19 @@ onMounted(async () => {
                     </table>
                 </div>
 
-                <!-- Summary -->
                 <div v-if="issueItems.length > 0" class="mt-4 p-3 bg-gray-50 rounded-lg">
                     <p class="text-sm text-gray-700">All Materials: <span class="font-semibold">{{ totalItems
                             }}</span> items</p>
                 </div>
             </div>
 
-            <!-- Modal Footer -->
             <div class="sticky bottom-0 bg-white border-t px-4 sm:px-6 py-4 flex justify-end gap-3">
                 <button @click="closeModal"
                     class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">
                     Cancel
                 </button>
                 <button @click="saveGoodsIssue" :disabled="isLoading || issueItems.length === 0"
-                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50">
+                    class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition disabled:opacity-50">
                     {{ isLoading ? 'Saving...' : 'Save' }}
                 </button>
             </div>

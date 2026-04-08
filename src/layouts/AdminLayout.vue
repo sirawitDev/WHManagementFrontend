@@ -2,17 +2,15 @@
 import { onMounted, ref, onUnmounted } from 'vue'
 import { useAuthStore } from '../stores/auth'
 import { RouterLink } from 'vue-router'
-// ...existing code...
-// import icons from lucide-vue-next
-import { LayoutDashboard, Boxes, FileBarChart2, Settings,PackageSearch, LogIn, User } from 'lucide-vue-next'
+import { LayoutDashboard, Boxes, FileBarChart2, Settings,PackageSearch, LogIn, User, UserRoundCog } from 'lucide-vue-next'
 const authStore = useAuthStore()
 
 const showAside = ref(false)
 const showUserMenu = ref(false)
 const isMobile = ref(false)
 const userMenuRef = ref(null)
-const showReportsMenu = ref(false) // เพิ่ม ref สำหรับเมนูรายงาน
-const reportsMenuRef = ref(null) // เพิ่ม ref สำหรับเมนูรายงาน
+const showReportsMenu = ref(false)
+const reportsMenuRef = ref(null)
 
 const toggleAside = () => {
     showAside.value = !showAside.value
@@ -30,7 +28,6 @@ const checkScreenSize = () => {
     isMobile.value = window.innerWidth < 768
 }
 
-// ฟังก์ชันตรวจจับคลิกนอกเมนู
 const handleClickOutside = (event) => {
     if (
         showUserMenu.value &&
@@ -62,7 +59,6 @@ onUnmounted(() => {
 
 <template>
     <div class="flex">
-        <!-- Desktop Sidebar (static) -->
         <aside v-if="!isMobile" class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg flex flex-col z-10">
             <div class="flex items-center justify-between px-4 py-4 border-b">
                 <div class="flex justify-center w-full">
@@ -77,21 +73,20 @@ onUnmounted(() => {
                     </span>
                 </RouterLink>
 
-                <RouterLink to="/materials" class="block cursor-pointer w-full px-3 py-2 rounded-lg hover:bg-[#DDE0FF] text-[#14158C] font-medium transition-colors border-2 border-[#14158C]">
+                <RouterLink to="/admin/materials" class="block cursor-pointer w-full px-3 py-2 rounded-lg hover:bg-[#DDE0FF] text-[#14158C] font-medium transition-colors border-2 border-[#14158C]">
                     <span class="flex items-center gap-2">
                         <Boxes class="w-5 h-5" />
-                        <p>จัดการวัสดุ / อุปกรณ์</p>
+                        <p>Manage Materials</p>
                     </span>
                 </RouterLink>
 
-                <RouterLink to="/reports/stock" class="block cursor-pointer w-full px-3 py-2 rounded-lg hover:bg-[#DDE0FF] text-[#14158C] font-medium transition-colors border-2 border-[#14158C]">
+                <RouterLink to="/admin/reports/stock" class="block cursor-pointer w-full px-3 py-2 rounded-lg hover:bg-[#DDE0FF] text-[#14158C] font-medium transition-colors border-2 border-[#14158C]">
                     <span class="flex items-center gap-2">
                         <PackageSearch class="w-5 h-5" />
-                        <p>รายงาน Stock</p>
+                        <p>Stock Reports</p>
                     </span>
                 </RouterLink>
 
-                <!-- Reports Dropdown Menu -->
                 <div class="relative" ref="reportsMenuRef">
                     <button 
                         @click="toggleReportsMenu"
@@ -99,7 +94,7 @@ onUnmounted(() => {
                     >
                         <span class="flex items-center gap-2">
                             <FileBarChart2 class="w-5 h-5" />
-                            <span>รายงานสินค้าในคลัง</span>
+                            <span>Inventory Report</span>
                         </span>
                         <svg 
                             :class="['w-4 h-4 transition-transform duration-200', showReportsMenu ? 'rotate-180' : '']"
@@ -112,27 +107,26 @@ onUnmounted(() => {
                         </svg>
                     </button>
                     
-                    <!-- Dropdown Submenu -->
                     <div 
                         v-if="showReportsMenu"
                         class="mt-1 ml-4 space-y-1 overflow-hidden transition-all duration-200"
                     >
                         <RouterLink 
-                            to="/reports/goods-receipt" 
+                            to="/admin/reports/goods-receipt" 
                             class="block px-3 py-2 rounded-lg hover:bg-[#DDE0FF] text-[#14158C] text-sm transition-colors flex items-center gap-2"
                         >
                             <FileBarChart2 class="w-4 h-4" />
                             Goods Receipt
                         </RouterLink>
                         <RouterLink 
-                            to="/reports/goods-issue" 
+                            to="/admin/reports/goods-issue" 
                             class="block px-3 py-2 rounded-lg hover:bg-[#DDE0FF] text-[#14158C] text-sm transition-colors flex items-center gap-2"
                         >
                             <FileBarChart2 class="w-4 h-4" />
                             Goods Issue
                         </RouterLink>
                         <RouterLink 
-                            to="/reports/inventory-transfer" 
+                            to="/admin/reports/inventory-transfer" 
                             class="block px-3 py-2 rounded-lg hover:bg-[#DDE0FF] text-[#14158C] text-sm transition-colors flex items-center gap-2"
                         >
                             <FileBarChart2 class="w-4 h-4" />
@@ -141,23 +135,28 @@ onUnmounted(() => {
                     </div>
                 </div>
 
-                <RouterLink to="/settings" class="block cursor-pointer w-full px-3 py-2 rounded-lg hover:bg-[#DDE0FF] text-[#14158C] font-medium transition-colors border-2 border-[#14158C]">
+                <RouterLink to="/admin/users" class="block cursor-pointer w-full px-3 py-2 rounded-lg hover:bg-[#DDE0FF] text-[#14158C] font-medium transition-colors border-2 border-[#14158C]">
+                    <span class="flex items-center gap-2">
+                        <UserRoundCog class="w-5 h-5"/>
+                        <p>User Management</p>
+                    </span>
+                </RouterLink>
+
+                <RouterLink to="/admin/settings" class="block cursor-pointer w-full px-3 py-2 rounded-lg hover:bg-[#DDE0FF] text-[#14158C] font-medium transition-colors border-2 border-[#14158C]">
                     <span class="flex items-center gap-2">
                         <Settings class="w-5 h-5" />
-                        <p>ตั้งค่าข้อมูลภายในระบบ</p>
+                        <p>System Settings</p>
                     </span>
                 </RouterLink>
             </nav>
         </aside>
 
-        <!-- Mobile Slide Menu -->
         <div v-if="isMobile">
             <transition name="fade">
                 <div v-if="showAside" class="fixed inset-0 bg-black bg-opacity-30 z-30" @click="showAside = false">
                 </div>
             </transition>
 
-            <!-- Sidebar Menu -->
             <transition name="slide">
                 <aside v-if="showAside" class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-40 flex flex-col">
                     <div class="flex items-center justify-between px-4 py-4 border-b">
@@ -180,14 +179,13 @@ onUnmounted(() => {
                             </span>
                         </RouterLink>
                         
-                        <RouterLink to="/materials" class="block px-3 py-2 rounded-lg hover:bg-[#DDE0FF] text-[#14158C] font-medium transition-colors">
+                        <RouterLink to="/admin/materials" class="block px-3 py-2 rounded-lg hover:bg-[#DDE0FF] text-[#14158C] font-medium transition-colors">
                             <span class="flex items-center gap-2">
                                 <Boxes class="w-5 h-5" />
-                                จัดการวัสดุ / อุปกรณ์
+                                Manage Materials
                             </span>
                         </RouterLink>
 
-                        <!-- Mobile Reports Dropdown -->
                         <div class="relative">
                             <button 
                                 @click="toggleReportsMenu"
@@ -195,7 +193,7 @@ onUnmounted(() => {
                             >
                                 <span class="flex items-center gap-2">
                                     <FileBarChart2 class="w-5 h-5" />
-                                    <span>รายงานสินค้าในคลัง</span>
+                                    <span>Inventory Report</span>
                                 </span>
                                 <svg 
                                     :class="['w-4 h-4 transition-transform duration-200', showReportsMenu ? 'rotate-180' : '']"
@@ -213,7 +211,7 @@ onUnmounted(() => {
                                 class="mt-1 ml-4 space-y-1 overflow-hidden"
                             >
                                 <RouterLink 
-                                    to="/reports/goods-receipt" 
+                                    to="/admin/reports/goods-receipt" 
                                     class="block px-3 py-2 rounded-lg hover:bg-[#DDE0FF] text-[#14158C] text-sm transition-colors flex items-center gap-2"
                                     @click="showAside = false"
                                 >
@@ -229,7 +227,7 @@ onUnmounted(() => {
                                     Goods Issue
                                 </RouterLink>
                                 <RouterLink 
-                                    to="/reports/inventory-transfer" 
+                                    to="/admin/reports/inventory-transfer" 
                                     class="block px-3 py-2 rounded-lg hover:bg-[#DDE0FF] text-[#14158C] text-sm transition-colors flex items-center gap-2"
                                     @click="showAside = false"
                                 >
@@ -239,10 +237,17 @@ onUnmounted(() => {
                             </div>
                         </div>
 
-                        <RouterLink to="/settings" class="block px-3 py-2 rounded-lg hover:bg-[#DDE0FF] text-[#14158C] font-medium transition-colors">
+                        <RouterLink to="/admin/users" class="block px-3 py-2 rounded-lg hover:bg-[#DDE0FF] text-[#14158C] font-medium transition-colors">
+                            <span class="flex items-center gap-2">
+                                <UserRoundCog class="w-5 h-5" />
+                                User Management
+                            </span>
+                        </RouterLink>
+
+                        <RouterLink to="/admin/settings" class="block px-3 py-2 rounded-lg hover:bg-[#DDE0FF] text-[#14158C] font-medium transition-colors">
                             <span class="flex items-center gap-2">
                                 <Settings class="w-5 h-5" />
-                                ตั้งค่าข้อมูลภายในระบบ
+                                System Settings
                             </span>
                         </RouterLink>
                     </nav>
@@ -250,7 +255,6 @@ onUnmounted(() => {
             </transition>
         </div>
 
-        <!-- Main Content -->
         <div :class="[!isMobile ? 'ml-64' : 'ml-0', 'flex-1']">
             <!-- Navbar -->
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -295,11 +299,11 @@ onUnmounted(() => {
                                 <!-- Dropdown menu -->
                                 <div v-if="showUserMenu"
                                     class="absolute right-0 mt-2 w-52 bg-white rounded-lg shadow-lg border z-30 py-1">
-                                    <a href="/profile"
+                                    <!-- <a href="/profile"
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
                                         Profile
-                                    </a>
-                                    <hr class="my-1">
+                                    </a> -->
+                                    <!-- <hr class="my-1"> -->
                                     <button @click="authStore.logout()"
                                         class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
                                         Logout

@@ -17,7 +17,6 @@ const businessPartnerStore = useBusinessPartnerStore()
 
 const showModal = ref(false)
 
-// --- Detail Modal ---
 const showDetailModal = ref(false)
 const selectedIssue = ref(null)
 
@@ -26,7 +25,6 @@ function openDetail(issue) {
     showDetailModal.value = true
 }
 
-// Filter states
 const filters = ref({
     code: '',
     businessPartnerCode: '',
@@ -39,7 +37,6 @@ const showFilters = ref(false)
 const sortField = ref('issueDate')
 const sortDir = ref('desc')
 
-// --- Pagination ---
 const currentPage = ref(1)
 const PAGE_SIZE = 5
 
@@ -76,7 +73,6 @@ const filteredIssues = computed(() => {
     return data
 })
 
-// --- Pagination computed ---
 const totalPages = computed(() => Math.ceil(filteredIssues.value.length / PAGE_SIZE))
 
 const paginatedIssues = computed(() => {
@@ -84,7 +80,6 @@ const paginatedIssues = computed(() => {
     return filteredIssues.value.slice(start, start + PAGE_SIZE)
 })
 
-// Reset หน้า 1 เมื่อ filter หรือ sort เปลี่ยน
 watch(filters, () => { currentPage.value = 1 }, { deep: true })
 watch([sortField, sortDir], () => { currentPage.value = 1 })
 
@@ -118,20 +113,30 @@ function formatTime(d) {
 
             <!-- Header -->
             <div class="p-4 sm:p-5 text-white flex justify-between items-center" style="
-                background: linear-gradient(135deg, #14158C 0%, #1e3a8a 50%, #1d4ed8 100%);
-                border-radius: 1rem;
-                box-shadow: 0 4px 20px rgba(20, 21, 140, 0.3);">
+        background: linear-gradient(135deg, #065f46 0%, #047857 50%, #16a34a 100%);
+        border-radius: 1rem;
+        box-shadow: 0 4px 20px rgba(6, 95, 70, 0.3);
+    ">
+
                 <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-white/15 rounded-xl flex items-center justify-center backdrop-blur-sm shrink-0">
+                    <div
+                        class="w-12 h-12 bg-white/15 rounded-xl flex items-center justify-center backdrop-blur-sm shrink-0">
                         <ClipboardPlus class="w-5 h-5 text-white" />
                     </div>
+
                     <div>
-                        <p class="text-white font-semibold text-xl leading-tight">Checker Goods Issue</p>
-                        <p class="text-blue-200 text-sm mt-0.5">{{ filteredIssues.length }} รายการ</p>
+                        <p class="text-white font-semibold text-xl leading-tight">
+                            Checker Goods Issue
+                        </p>
+                        <p class="text-green-200 text-sm mt-0.5">
+                            {{ filteredIssues.length }} รายการ
+                        </p>
                     </div>
                 </div>
+
                 <button @click="showModal = true"
-                    class="bg-white text-blue-700 px-4 py-2 rounded-lg font-semibold hover:bg-blue-100 transition hover:scale-105 duration-300 flex items-center gap-2 text-sm sm:text-base">
+                    class="bg-white text-green-700 px-4 py-2 rounded-lg font-semibold hover:bg-green-100 transition hover:scale-105 duration-300 flex items-center gap-2 text-sm sm:text-base">
+
                     <Plus class="w-4 h-4" />
                     <span class="hidden sm:inline">New Goods Issue</span>
                     <span class="sm:hidden">New</span>
@@ -142,15 +147,19 @@ function formatTime(d) {
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                 <div class="flex items-center justify-between px-4 sm:px-5 py-3.5 border-b border-gray-100">
                     <button @click="showFilters = !showFilters"
-                        class="flex items-center gap-2 text-sm font-semibold text-gray-700 hover:text-blue-700 transition-colors">
+                        class="flex items-center gap-2 text-sm font-semibold text-gray-700 hover:text-green-700 transition-colors">
+
                         <Filter class="w-4 h-4" />
                         <span>ตัวกรอง</span>
+
                         <span v-if="activeFilterCount > 0"
-                            class="bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                            class="bg-green-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
                             {{ activeFilterCount }}
                         </span>
+
                         <component :is="showFilters ? ChevronUp : ChevronDown" class="w-4 h-4 text-gray-400 ml-1" />
                     </button>
+
                     <button v-if="activeFilterCount > 0" @click="clearFilters"
                         class="flex items-center gap-1.5 text-xs text-red-500 hover:text-red-700 font-medium transition-colors">
                         <X class="w-3.5 h-3.5" /> ล้างทั้งหมด
@@ -158,113 +167,153 @@ function formatTime(d) {
                 </div>
 
                 <Transition name="slide">
-                    <div v-if="showFilters" class="px-4 sm:px-5 py-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+                    <div v-if="showFilters"
+                        class="px-4 sm:px-5 py-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
+
                         <div class="relative">
                             <label class="text-xs font-semibold text-gray-500 mb-1.5 flex items-center gap-1.5">
-                                <Hash class="w-3.5 h-3.5 text-blue-500" />เลขที่เอกสาร
+                                <Hash class="w-3.5 h-3.5 text-green-500" />เลขที่เอกสาร
                             </label>
                             <div class="relative">
                                 <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
-                                <input v-model="filters.code" type="text" placeholder="GI..."
-                                    class="w-full pl-8 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-gray-50 hover:bg-white transition-colors" />
+                                <input v-model="filters.code" type="text" placeholder="GI..." class="w-full pl-8 pr-3 py-2 text-sm border border-gray-200 rounded-lg
+                        focus:outline-none focus:ring-2 focus:ring-green-400
+                        focus:border-transparent bg-gray-50 hover:bg-white transition-colors" />
                             </div>
                         </div>
+
                         <div class="relative">
                             <label class="text-xs font-semibold text-gray-500 mb-1.5 flex items-center gap-1.5">
-                                <Building2 class="w-3.5 h-3.5 text-blue-500" />Business Partner
+                                <Building2 class="w-3.5 h-3.5 text-green-500" />Business Partner
                             </label>
                             <div class="relative">
                                 <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
-                                <input v-model="filters.businessPartnerCode" type="text" placeholder="BP..."
-                                    class="w-full pl-8 pr-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-gray-50 hover:bg-white transition-colors" />
+                                <input v-model="filters.businessPartnerCode" type="text" placeholder="BP..." class="w-full pl-8 pr-3 py-2 text-sm border border-gray-200 rounded-lg
+                        focus:outline-none focus:ring-2 focus:ring-green-400
+                        focus:border-transparent bg-gray-50 hover:bg-white transition-colors" />
                             </div>
                         </div>
+
                         <div>
                             <label class="text-xs font-semibold text-gray-500 mb-1.5 flex items-center gap-1.5">
-                                <Tag class="w-3.5 h-3.5 text-blue-500" />หมวดหมู่
+                                <Tag class="w-3.5 h-3.5 text-green-500" />หมวดหมู่
                             </label>
-                            <select v-model="filters.categories"
-                                class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-gray-50 hover:bg-white transition-colors">
+                            <select v-model="filters.categories" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg
+                    focus:outline-none focus:ring-2 focus:ring-green-400
+                    focus:border-transparent bg-gray-50 hover:bg-white transition-colors">
                                 <option value="">ทั้งหมด</option>
-                                <option v-for="cat in allCategories" :key="cat" :value="cat">{{ categoryStore.getCategoryNameByCode(cat) }}</option>
+                                <option v-for="cat in allCategories" :key="cat" :value="cat">
+                                    {{ categoryStore.getCategoryNameByCode(cat) }}
+                                </option>
                             </select>
                         </div>
+
                         <div>
                             <label class="text-xs font-semibold text-gray-500 mb-1.5 flex items-center gap-1.5">
-                                <Calendar class="w-3.5 h-3.5 text-blue-500" />วันที่เริ่มต้น
+                                <Calendar class="w-3.5 h-3.5 text-green-500" />วันที่เริ่มต้น
                             </label>
-                            <input v-model="filters.dateFrom" type="date"
-                                class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-gray-50 hover:bg-white transition-colors" />
+                            <input v-model="filters.dateFrom" type="date" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg
+                    focus:outline-none focus:ring-2 focus:ring-green-400
+                    bg-gray-50 hover:bg-white transition-colors" />
                         </div>
+
                         <div>
                             <label class="text-xs font-semibold text-gray-500 mb-1.5 flex items-center gap-1.5">
-                                <Calendar class="w-3.5 h-3.5 text-blue-500" />วันที่สิ้นสุด
+                                <Calendar class="w-3.5 h-3.5 text-green-500" />วันที่สิ้นสุด
                             </label>
-                            <input v-model="filters.dateTo" type="date"
-                                class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-gray-50 hover:bg-white transition-colors" />
+                            <input v-model="filters.dateTo" type="date" class="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg
+                    focus:outline-none focus:ring-2 focus:ring-green-400
+                    bg-gray-50 hover:bg-white transition-colors" />
                         </div>
                     </div>
                 </Transition>
 
-                <!-- Table -->
                 <div class="overflow-x-auto">
                     <table class="w-full min-w-[680px]">
                         <thead>
-                            <tr class="bg-gradient-to-r from-slate-50 to-blue-50 border-b border-gray-200">
-                                <th class="text-left px-4 sm:px-5 py-3.5 text-xs font-bold text-gray-500 uppercase tracking-wider w-10">#</th>
-                                <th @click="toggleSort('code')" class="text-left px-4 sm:px-5 py-3.5 text-xs font-bold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-blue-700 select-none transition-colors group">
+                            <tr class="bg-gradient-to-r from-slate-50 to-blgreenue-50 border-b border-gray-200">
+                                <th
+                                    class="text-left px-4 sm:px-5 py-3.5 text-xs font-bold text-gray-500 uppercase tracking-wider w-10">
+                                    #</th>
+                                <th @click="toggleSort('code')"
+                                    class="text-left px-4 sm:px-5 py-3.5 text-xs font-bold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-green-700 select-none transition-colors group">
                                     <div class="flex items-center gap-1.5">
                                         เลขที่เอกสาร
-                                        <span class="flex flex-col gap-0.5 opacity-40 group-hover:opacity-100 transition-opacity">
-                                            <ChevronUp class="w-2.5 h-2.5" :class="sortField === 'code' && sortDir === 'asc' ? 'text-blue-600 opacity-100' : ''" />
-                                            <ChevronDown class="w-2.5 h-2.5 -mt-1" :class="sortField === 'code' && sortDir === 'desc' ? 'text-blue-600 opacity-100' : ''" />
+                                        <span
+                                            class="flex flex-col gap-0.5 opacity-40 group-hover:opacity-100 transition-opacity">
+                                            <ChevronUp class="w-2.5 h-2.5"
+                                                :class="sortField === 'code' && sortDir === 'asc' ? 'text-green-600 opacity-100' : ''" />
+                                            <ChevronDown class="w-2.5 h-2.5 -mt-1"
+                                                :class="sortField === 'code' && sortDir === 'desc' ? 'text-green-600 opacity-100' : ''" />
                                         </span>
                                     </div>
                                 </th>
-                                <th @click="toggleSort('issueDate')" class="text-left px-4 sm:px-5 py-3.5 text-xs font-bold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-blue-700 select-none transition-colors group">
+                                <th @click="toggleSort('issueDate')"
+                                    class="text-left px-4 sm:px-5 py-3.5 text-xs font-bold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-green-700 select-none transition-colors group">
                                     <div class="flex items-center gap-1.5">
                                         วันที่
-                                        <span class="flex flex-col gap-0.5 opacity-40 group-hover:opacity-100 transition-opacity">
-                                            <ChevronUp class="w-2.5 h-2.5" :class="sortField === 'issueDate' && sortDir === 'asc' ? 'text-blue-600 opacity-100' : ''" />
-                                            <ChevronDown class="w-2.5 h-2.5 -mt-1" :class="sortField === 'issueDate' && sortDir === 'desc' ? 'text-blue-600 opacity-100' : ''" />
+                                        <span
+                                            class="flex flex-col gap-0.5 opacity-40 group-hover:opacity-100 transition-opacity">
+                                            <ChevronUp class="w-2.5 h-2.5"
+                                                :class="sortField === 'issueDate' && sortDir === 'asc' ? 'text-green-600 opacity-100' : ''" />
+                                            <ChevronDown class="w-2.5 h-2.5 -mt-1"
+                                                :class="sortField === 'issueDate' && sortDir === 'desc' ? 'text-green-600 opacity-100' : ''" />
                                         </span>
                                     </div>
                                 </th>
-                                <th @click="toggleSort('businessPartnerCode')" class="text-left px-4 sm:px-5 py-3.5 text-xs font-bold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-blue-700 select-none transition-colors group hidden sm:table-cell">
+                                <th @click="toggleSort('businessPartnerCode')"
+                                    class="text-left px-4 sm:px-5 py-3.5 text-xs font-bold text-gray-500 uppercase tracking-wider cursor-pointer hover:text-green-700 select-none transition-colors group hidden sm:table-cell">
                                     <div class="flex items-center gap-1.5">
                                         Business Partner
-                                        <span class="flex flex-col gap-0.5 opacity-40 group-hover:opacity-100 transition-opacity">
-                                            <ChevronUp class="w-2.5 h-2.5" :class="sortField === 'businessPartnerCode' && sortDir === 'asc' ? 'text-blue-600 opacity-100' : ''" />
-                                            <ChevronDown class="w-2.5 h-2.5 -mt-1" :class="sortField === 'businessPartnerCode' && sortDir === 'desc' ? 'text-blue-600 opacity-100' : ''" />
+                                        <span
+                                            class="flex flex-col gap-0.5 opacity-40 group-hover:opacity-100 transition-opacity">
+                                            <ChevronUp class="w-2.5 h-2.5"
+                                                :class="sortField === 'businessPartnerCode' && sortDir === 'asc' ? 'text-green-600 opacity-100' : ''" />
+                                            <ChevronDown class="w-2.5 h-2.5 -mt-1"
+                                                :class="sortField === 'businessPartnerCode' && sortDir === 'desc' ? 'text-green-600 opacity-100' : ''" />
                                         </span>
                                     </div>
                                 </th>
-                                <th class="text-left px-4 sm:px-5 py-3.5 text-xs font-bold text-gray-500 uppercase tracking-wider hidden md:table-cell">หมวดหมู่</th>
-                                <th class="text-left px-4 sm:px-5 py-3.5 text-xs font-bold text-gray-500 uppercase tracking-wider hidden lg:table-cell">Vendor Ref.</th>
-                                <th class="text-center px-4 sm:px-5 py-3.5 text-xs font-bold text-gray-500 uppercase tracking-wider">รายการ</th>
-                                <th class="text-center px-4 sm:px-5 py-3.5 text-xs font-bold text-gray-500 uppercase tracking-wider">ดูเพิ่ม</th>
+                                <th
+                                    class="text-left px-4 sm:px-5 py-3.5 text-xs font-bold text-gray-500 uppercase tracking-wider hidden md:table-cell">
+                                    หมวดหมู่</th>
+                                <th
+                                    class="text-left px-4 sm:px-5 py-3.5 text-xs font-bold text-gray-500 uppercase tracking-wider hidden lg:table-cell">
+                                    Vendor Ref.</th>
+                                <th
+                                    class="text-center px-4 sm:px-5 py-3.5 text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    รายการ</th>
+                                <th
+                                    class="text-center px-4 sm:px-5 py-3.5 text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    ดูเพิ่ม</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
                             <template v-if="paginatedIssues.length > 0">
                                 <tr v-for="(issue, idx) in paginatedIssues" :key="issue._id"
-                                    class="hover:bg-blue-50/50 transition-colors duration-150 group">
+                                    class="hover:bg-green-50/50 transition-colors duration-150 group">
                                     <td class="px-4 sm:px-5 py-3.5 text-xs text-gray-400 font-medium">
                                         {{ (currentPage - 1) * PAGE_SIZE + idx + 1 }}
                                     </td>
                                     <td class="px-4 sm:px-5 py-3.5">
-                                        <span class="font-mono text-xs sm:text-sm font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-lg group-hover:bg-blue-100 transition-colors whitespace-nowrap">
+                                        <span
+                                            class="font-mono text-xs sm:text-sm font-bold text-green-700 bg-green-50 px-2.5 py-1 rounded-lg group-hover:bg-green-100 transition-colors whitespace-nowrap">
                                             {{ issue.code }}
                                         </span>
                                     </td>
                                     <td class="px-4 sm:px-5 py-3.5 whitespace-nowrap">
-                                        <div class="text-sm font-semibold text-gray-800">{{ formatDate(issue.issueDate) }}</div>
-                                        <div class="text-xs text-gray-400 mt-0.5">{{ formatTime(issue.issueDate) }}</div>
+                                        <div class="text-sm font-semibold text-gray-800">{{ formatDate(issue.issueDate)
+                                            }}</div>
+                                        <div class="text-xs text-gray-400 mt-0.5">{{ formatTime(issue.issueDate) }}
+                                        </div>
                                     </td>
                                     <td class="px-4 sm:px-5 py-3.5 hidden sm:table-cell">
-                                        <span class="inline-flex items-center gap-1.5 text-sm text-gray-700 font-medium">
+                                        <span
+                                            class="inline-flex items-center gap-1.5 text-sm text-gray-700 font-medium">
                                             <Building2 class="w-3.5 h-3.5 text-gray-400 shrink-0" />
-                                            {{ businessPartnerStore.getBusinessPartnerNameByCode(issue.businessPartnerCode) }}
+                                            {{
+                                                businessPartnerStore.getBusinessPartnerNameByCode(issue.businessPartnerCode)
+                                            }}
                                         </span>
                                     </td>
                                     <td class="px-4 sm:px-5 py-3.5 hidden md:table-cell">
@@ -279,14 +328,15 @@ function formatTime(d) {
                                         <span class="text-sm text-gray-600">{{ issue.vendorReference || '-' }}</span>
                                     </td>
                                     <td class="px-4 sm:px-5 py-3.5 text-center">
-                                        <span class="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold"
+                                        <span
+                                            class="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold"
                                             :class="issue.items?.length > 0 ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-400'">
                                             {{ issue.items?.length ?? 0 }}
                                         </span>
                                     </td>
                                     <td class="px-4 sm:px-5 py-3.5 text-center">
                                         <button @click="openDetail(issue)"
-                                            class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-200 hover:scale-110 hover:shadow-md hover:shadow-blue-200">
+                                            class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-green-50 text-green-600 hover:bg-green-600 hover:text-white transition-all duration-200 hover:scale-110 hover:shadow-md hover:shadow-green-200">
                                             <Eye class="w-4 h-4" />
                                         </button>
                                     </td>
@@ -301,7 +351,7 @@ function formatTime(d) {
                                         <p class="text-gray-500 font-semibold">ไม่พบข้อมูล</p>
                                         <p class="text-gray-400 text-sm">ลองปรับเงื่อนไขการกรองใหม่</p>
                                         <button v-if="activeFilterCount > 0" @click="clearFilters"
-                                            class="mt-1 text-sm text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-1.5">
+                                            class="mt-1 text-sm text-green-600 hover:text-green-800 font-semibold flex items-center gap-1.5">
                                             <X class="w-3.5 h-3.5" /> ล้างตัวกรอง
                                         </button>
                                     </div>
@@ -311,39 +361,36 @@ function formatTime(d) {
                     </table>
                 </div>
 
-                <!-- Pagination Footer -->
                 <div v-if="filteredIssues.length > 0"
                     class="px-4 sm:px-5 py-3 border-t border-gray-100 bg-gray-50/50 flex items-center justify-between text-xs text-gray-500">
                     <span>
                         แสดง
                         <span class="font-bold text-gray-700">
-                            {{ Math.min((currentPage - 1) * PAGE_SIZE + 1, filteredIssues.length) }}–{{ Math.min(currentPage * PAGE_SIZE, filteredIssues.length) }}
+                            {{ Math.min((currentPage - 1) * PAGE_SIZE + 1, filteredIssues.length) }}–{{
+                                Math.min(currentPage *
+                                    PAGE_SIZE, filteredIssues.length) }}
                         </span>
                         จาก <span class="font-bold text-gray-700">{{ filteredIssues.length }}</span> รายการ
-                        <span v-if="activeFilterCount > 0" class="ml-2 text-blue-600 font-semibold">
+                        <span v-if="activeFilterCount > 0" class="ml-2 text-green-600 font-semibold">
                             (กำลังกรองอยู่ {{ activeFilterCount }} เงื่อนไข)
                         </span>
                     </span>
 
                     <div class="flex items-center gap-1">
-                        <!-- ปุ่มย้อนกลับ -->
                         <button @click="currentPage--" :disabled="currentPage === 1"
-                            class="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-gray-500 hover:border-blue-400 hover:text-blue-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all">
+                            class="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-gray-500 hover:border-green-400 hover:text-green-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all">
                             ‹
                         </button>
 
-                        <!-- ปุ่มเลขหน้า -->
                         <button v-for="p in totalPages" :key="p" @click="currentPage = p"
-                            class="w-7 h-7 rounded-lg border text-xs font-semibold transition-all"
-                            :class="p === currentPage
-                                ? 'bg-blue-600 border-blue-600 text-white'
-                                : 'border-gray-200 text-gray-500 hover:border-blue-400 hover:text-blue-600'">
+                            class="w-7 h-7 rounded-lg border text-xs font-semibold transition-all" :class="p === currentPage
+                                ? 'bg-green-600 border-green-600 text-white'
+                                : 'border-gray-200 text-gray-500 hover:border-green-400 hover:text-green-600'">
                             {{ p }}
                         </button>
 
-                        <!-- ปุ่มถัดไป -->
                         <button @click="currentPage++" :disabled="currentPage === totalPages"
-                            class="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-gray-500 hover:border-blue-400 hover:text-blue-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all">
+                            class="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-gray-500 hover:border-green-400 hover:text-green-600 disabled:opacity-30 disabled:cursor-not-allowed transition-all">
                             ›
                         </button>
                     </div>
@@ -353,23 +400,28 @@ function formatTime(d) {
 
         <GoodsIssueModal v-model="showModal" />
 
-        <!-- Detail Modal -->
-        <GoodsIssueDetailModal
-            v-model="showDetailModal"
-            :issue="selectedIssue"
-        />
+        <GoodsIssueDetailModal v-model="showDetailModal" :issue="selectedIssue" />
     </CheckerLayout>
 </template>
 
 <style scoped>
-.slide-enter-active, .slide-leave-active {
+.slide-enter-active,
+.slide-leave-active {
     transition: all 0.25s ease;
     overflow: hidden;
 }
-.slide-enter-from, .slide-leave-to {
-    max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0;
+
+.slide-enter-from,
+.slide-leave-to {
+    max-height: 0;
+    opacity: 0;
+    padding-top: 0;
+    padding-bottom: 0;
 }
-.slide-enter-to, .slide-leave-from {
-    max-height: 300px; opacity: 1;
+
+.slide-enter-to,
+.slide-leave-from {
+    max-height: 300px;
+    opacity: 1;
 }
 </style>
