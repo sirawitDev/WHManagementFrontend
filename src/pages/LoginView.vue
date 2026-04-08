@@ -19,10 +19,10 @@ const error = ref('')
 
 const handleLogin = async () => {
     if (!formData.value.username || !formData.value.password) {
-        error.value = 'กรุณากรอกข้อมูลให้ครบถ้วน'
+        error.value = 'Please fill in all required fields.'
         Swal.fire({
             icon: 'warning',
-            title: 'กรุณากรอกข้อมูลให้ครบถ้วน'
+            title: 'Please fill in all required fields.'
         })
         return
     }
@@ -36,10 +36,10 @@ const handleLogin = async () => {
             formData.value,
             { headers: { 'Content-Type': 'application/json' } }
         )
-        // authStore.setToken(response.data.token) // ถ้ามีการจัดการ token
+        
         Swal.fire({
             icon: 'success',
-            title: 'เข้าสู่ระบบสำเร็จ',
+            title: 'Login successful',
             showConfirmButton: false,
             timer: 1500
         })
@@ -50,15 +50,15 @@ const handleLogin = async () => {
             error.value = err.response.data.message
             Swal.fire({
                 icon: 'error',
-                title: 'เข้าสู่ระบบไม่สำเร็จ',
+                title: 'Login failed',
                 text: err.response.data.message
             })
         } else {
-            error.value = 'เกิดข้อผิดพลาดในการเชื่อมต่อ'
+            error.value = 'A connection error occurred.'
             Swal.fire({
                 icon: 'error',
-                title: 'เกิดข้อผิดพลาด',
-                text: 'เกิดข้อผิดพลาดในการเชื่อมต่อ'
+                title: 'An error occurred.',
+                text: 'A connection error occurred.'
             })
         }
     } finally {
@@ -80,19 +80,22 @@ const goToHome = () => {
         <div class="max-w-md w-full space-y-8 p-8">
             <div class="bg-white rounded-2xl shadow-xl p-8">
                 <div class="text-center mb-8">
-                    <div class="mx-auto h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                    <!-- <div class="mx-auto h-16 w-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
                         <User class="text-blue-600 h-7 w-7"/>
+                    </div> -->
+                    <div class="flex justify-center mb-2">
+                        <img src="../assets/img/CNLOGO2.png" alt="" class="w-[96px] h-[96px]">
                     </div>
                     <h2 class="text-3xl font-bold text-gray-900 mb-2">
-                        ยินดีต้อนรับ
+                        Warehouse System
                     </h2>
-                    <p class="text-gray-600">เข้าสู่ระบบเพื่อใช้งาน</p>
+                    <p class="text-gray-600">Please sign in to access the system.</p>
                 </div>
 
                 <form @submit.prevent="handleLogin" class="space-y-6">
                     <div class="space-y-4">
                         <div>
-                            <label for="username" class="block text-sm font-medium text-gray-700 mb-2">ชื่อผู้ใช้</label>
+                            <label for="username" class="block text-sm font-medium text-gray-700 mb-2">Username</label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <User class="w-5 h-5 text-gray-400"/>
@@ -103,13 +106,13 @@ const goToHome = () => {
                                     type="text" 
                                     required
                                     class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-                                    placeholder="กรอกชื่อผู้ใช้" 
+                                    placeholder="Enter Username" 
                                 />
                             </div>
                         </div>
                         
                         <div>
-                            <label for="password" class="block text-sm font-medium text-gray-700 mb-2">รหัสผ่าน</label>
+                            <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <KeyRound class="w-5 h-5 text-gray-400"/>
@@ -120,7 +123,7 @@ const goToHome = () => {
                                     type="password" 
                                     required
                                     class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-                                    placeholder="กรอกรหัสผ่าน" 
+                                    placeholder="Enter Password" 
                                 />
                             </div>
                         </div>
@@ -140,7 +143,7 @@ const goToHome = () => {
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
-                            {{ loading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ' }}
+                            {{ loading ? 'Logging in...' : 'Log In' }}
                         </button>
 
                         <button
@@ -148,7 +151,7 @@ const goToHome = () => {
                             @click="goToHome"
                             class="w-full flex justify-center py-3 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200"
                         >
-                            กลับหน้าแรก
+                            Back to Home
                         </button>
                     </div>
                 </form>

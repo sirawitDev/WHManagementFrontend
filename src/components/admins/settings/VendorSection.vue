@@ -75,7 +75,6 @@ const goToPage = (page) => {
     <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100">
         <div class="p-4 sm:p-5 lg:p-6">
 
-            <!-- Header -->
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
                 <div class="flex items-center gap-3">
                     <div class="p-2 bg-[#DDE0FF] rounded-lg">
@@ -98,13 +97,11 @@ const goToPage = (page) => {
                 Manage vendors
             </div>
 
-            <!-- Loading -->
             <div v-if="venderStore.loading" class="mt-6 text-center py-4">
                 <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#14158C]"></div>
                 <p class="text-sm text-gray-500 mt-2">Loading...</p>
             </div>
 
-            <!-- Table -->
             <div v-else class="mt-6 overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
@@ -158,7 +155,6 @@ const goToPage = (page) => {
                     </tbody>
                 </table>
 
-                <!-- Pagination -->
                 <div v-if="venderStore.vendors.length > itemsPerPage" class="flex justify-end mt-4">
                     <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1"
                         class="px-3 py-1 rounded-l-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-100 disabled:opacity-50">

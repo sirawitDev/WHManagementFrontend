@@ -2,62 +2,52 @@
 import { ref, computed, watch } from 'vue'
 
 const props = defineProps({
-    // Model binding
     modelValue: {
         type: [String, Number, Object],
         default: null
     },
 
-    // Options array
     options: {
         type: Array,
         required: true,
         default: () => []
     },
 
-    // Option value key (if options are objects)
     valueKey: {
         type: String,
         default: '_id'
     },
 
-    // Option label key (if options are objects)
     labelKey: {
         type: String,
         default: 'name'
     },
 
-    // Label for the field
     label: {
         type: String,
         default: ''
     },
 
-    // Placeholder text
     placeholder: {
         type: String,
         default: ''
     },
 
-    // Search input placeholder
     searchPlaceholder: {
         type: String,
         default: ''
     },
 
-    // Required field indicator
     required: {
         type: Boolean,
         default: false
     },
 
-    // Disabled state
     disabled: {
         type: Boolean,
         default: false
     },
 
-    // Unique name for the dropdown (for multiple instances)
     name: {
         type: String,
         default: 'select'
@@ -66,11 +56,9 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'change'])
 
-// State
 const isOpen = ref(false)
 const searchQuery = ref('')
 
-// Computed
 const filteredOptions = computed(() => {
     if (!searchQuery.value) return props.options
     return props.options.filter(option => {
@@ -88,7 +76,6 @@ const selectedDisplayValue = computed(() => {
     return selected ? getOptionLabel(selected) : null
 })
 
-// Helper methods
 const getOptionValue = (option) => {
     if (typeof option === 'object' && option !== null) {
         return option[props.valueKey]
@@ -134,7 +121,6 @@ const closeDropdown = () => {
     searchQuery.value = ''
 }
 
-// Close dropdown when clicking outside
 const handleClickOutside = (event) => {
     const dropdownElement = event.target.closest(`.dropdown-${props.name}`)
     if (!dropdownElement) {
@@ -142,18 +128,15 @@ const handleClickOutside = (event) => {
     }
 }
 
-// Add click outside listener
 if (typeof window !== 'undefined') {
     document.addEventListener('click', handleClickOutside)
 }
 
-// Clean up
 import { onBeforeUnmount } from 'vue'
 onBeforeUnmount(() => {
     document.removeEventListener('click', handleClickOutside)
 })
 
-// Reset search when dropdown closes
 watch(isOpen, (newVal) => {
     if (!newVal) {
         searchQuery.value = ''
@@ -191,7 +174,6 @@ watch(isOpen, (newVal) => {
                     :placeholder="searchPlaceholder || 'ค้นหา...'" @keyup.esc="closeDropdown">
             </div>
 
-            <!-- Options list -->
             <div class="overflow-y-auto max-h-48">
                 <div v-for="option in filteredOptions" :key="getOptionValue(option)" @click="selectOption(option)"
                     class="px-3 py-2 hover:bg-blue-50 cursor-pointer transition"
@@ -199,7 +181,6 @@ watch(isOpen, (newVal) => {
                     {{ getOptionLabel(option) }}
                 </div>
 
-                <!-- No results message -->
                 <div v-if="filteredOptions.length === 0" class="px-3 py-2 text-gray-500 text-center">
                     ไม่พบข้อมูล
                 </div>

@@ -101,13 +101,11 @@ const goToPage = (page) => {
                 Manage units of measurement and counting.
             </div>
 
-            <!-- Loading State -->
             <div v-if="unitStore.loading" class="mt-6 text-center py-4">
                 <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#14158C]"></div>
                 <p class="text-sm text-gray-500 mt-2">Loading...</p>
             </div>
 
-            <!-- Units Table -->
             <div v-else class="mt-6 overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
@@ -162,7 +160,6 @@ const goToPage = (page) => {
                         </tr>
                     </tbody>
                 </table>
-                <!-- Pagination -->
                 <div v-if="unitStore.units.length > itemsPerPage" class="flex justify-end mt-4">
                     <nav class="inline-flex rounded-md shadow-sm" aria-label="Pagination">
                         <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1"

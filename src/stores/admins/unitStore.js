@@ -127,7 +127,7 @@ export const useUnitStore = defineStore('unit', {
 
         getUnitNameByCode: (state) => (code) => {
             const unit = state.units.find(u => u.code === code)
-            return unit ? unit.name : code // fallback ถ้าไม่เจอ
+            return unit ? unit.name : code
         },
 
         totalUnits: (state) => state.units.length

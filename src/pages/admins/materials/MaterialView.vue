@@ -20,25 +20,21 @@ const locationWhStore = useLocationWhStore()
 const showBarcodeModal = ref(false)
 const selectedMaterial = ref(null)
 
-// Modal state
 const showModal = ref(false)
 const isSubmitting = ref(false)
 const isEditMode = ref(false)
 const editId = ref(null)
 
-// Search & Pagination
 const searchQuery = ref('')
 const currentPage = ref(1)
 const itemsPerPage = 5
 
-/** Lowercase text + normalized (no spaces/hyphens) for location-style codes e.g. 171-0101 vs 1710101 */
 function normalizeLoose(s) {
     return String(s || '')
         .toLowerCase()
         .replace(/[\s\-_]/g, '')
 }
 
-/** All searchable location strings for a material (code, name, id variants from API). */
 function materialLocationSearchParts(m) {
     const parts = []
     const wl = m.warehouseLocation
@@ -70,7 +66,6 @@ function materialLocationSearchParts(m) {
     return parts.map(p => String(p).trim()).filter(Boolean)
 }
 
-// Filtered materials
 const filteredMaterials = computed(() => {
     const q = searchQuery.value.toLowerCase().trim()
     if (!q) return materialStore.materials
@@ -94,7 +89,6 @@ const filteredMaterials = computed(() => {
     })
 })
 
-// Pagination
 const totalPages = computed(() => Math.ceil(filteredMaterials.value.length / itemsPerPage))
 
 const paginatedMaterials = computed(() => {
@@ -199,10 +193,8 @@ const downloadBarcode = () => {
     }
 }
 
-// Reset page when searching
 watch(searchQuery, () => { currentPage.value = 1 })
 
-// Form data
 const formData = ref({
     code: '',
     categoryId: '',
@@ -431,9 +423,7 @@ onMounted(async () => {
                 </button>
             </div>
 
-            <!-- Table Section -->
             <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <!-- Desktop Table -->
                 <div class="hidden md:block overflow-x-auto">
                     <table class="w-full">
                         <thead>
@@ -506,7 +496,6 @@ onMounted(async () => {
                     </table>
                 </div>
 
-                <!-- Mobile Card View -->
                 <div class="md:hidden space-y-4 p-4">
                     <div v-for="material in paginatedMaterials" :key="material._id"
                         class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition">
@@ -569,10 +558,8 @@ onMounted(async () => {
                     </div>
                 </div>
 
-                <!-- Pagination -->
                 <div v-if="totalPages > 1"
                     class="flex flex-col sm:flex-row items-center justify-between gap-3 px-6 py-4 border-t bg-gray-50">
-                    <!-- Info -->
                     <p class="text-sm text-gray-500">
                         Showing {{ (currentPage - 1) * itemsPerPage + 1 }}–{{ Math.min(currentPage * itemsPerPage,
                             filteredMaterials.length) }}
@@ -607,7 +594,6 @@ onMounted(async () => {
             </div>
         </div>
 
-        <!-- Modal (unchanged) -->
         <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
             @click.self="closeModal">
             <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -696,8 +682,6 @@ onMounted(async () => {
             </div>
         </div>
 
-        <!-- Barcode Modal -->
-        <!-- Barcode Modal -->
         <div v-if="showBarcodeModal"
             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
             @click.self="showBarcodeModal = false">
@@ -713,7 +697,6 @@ onMounted(async () => {
 
                 <div id="barcode-print-area" class="p-6">
                     <div class="flex items-stretch border border-gray-200 rounded-lg mx-auto">
-                        <!-- Material Code Section -->
                         <div class="flex-1 flex flex-col">
                             <div class="text-center pt-4">
                                 <p class="text-xs text-gray-500 mb-1">Material Code</p>
@@ -725,7 +708,6 @@ onMounted(async () => {
 
                         <div class="w-px bg-gray-200"></div>
 
-                        <!-- Product Name Section -->
                         <div class="flex-1 flex flex-col">
                             <div class="text-center pt-4">
                                 <p class="text-xs text-gray-500 mb-1">Product Name</p>
@@ -737,7 +719,6 @@ onMounted(async () => {
 
                         <div class="w-px bg-gray-200"></div>
 
-                        <!-- Barcode Section -->
                         <div class="flex-1 flex flex-col">
                             <div class="text-center pt-4">
                                 <p class="text-xs text-gray-500 mb-1">Barcode</p>

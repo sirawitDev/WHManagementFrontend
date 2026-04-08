@@ -70,7 +70,7 @@ onMounted(async () => {
                                     <ClipboardList class="w-5 h-5 text-white" />
                                 </div>
                                 <div>
-                                    <p class="text-white font-bold text-lg leading-tight">รายละเอียด Goods Issue</p>
+                                    <p class="text-white font-bold text-lg leading-tight">Goods Issue Details</p>
                                     <p class="text-blue-200 text-sm font-mono mt-0.5">{{ issue?.code }}</p>
                                 </div>
                             </div>
@@ -104,7 +104,7 @@ onMounted(async () => {
 
                         <!-- General Info -->
                         <section>
-                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">ข้อมูลทั่วไป</h3>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">General Information</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
 
                                 <div class="flex items-start gap-3 bg-gray-50 rounded-xl p-3.5">
@@ -113,7 +113,7 @@ onMounted(async () => {
                                         <Calendar class="w-4 h-4 text-blue-600" />
                                     </div>
                                     <div>
-                                        <p class="text-xs text-gray-400 font-medium">วันที่ออกเอกสาร</p>
+                                        <p class="text-xs text-gray-400 font-medium">Issue Date</p>
                                         <p class="text-sm font-semibold text-gray-800 mt-0.5">{{
                                             formatDate(issue?.issueDate) }}</p>
                                     </div>
@@ -157,7 +157,7 @@ onMounted(async () => {
                                         <Tag class="w-4 h-4 text-amber-600" />
                                     </div>
                                     <div>
-                                        <p class="text-xs text-gray-400 font-medium">หมวดหมู่</p>
+                                        <p class="text-xs text-gray-400 font-medium">Category</p>
                                         <div class="flex flex-wrap gap-1.5 mt-1.5">
                                             <span v-for="cat in issue?.categories" :key="cat"
                                                 class="text-xs bg-indigo-50 text-indigo-700 font-semibold px-2 py-0.5 rounded-full border border-indigo-100">
@@ -187,7 +187,7 @@ onMounted(async () => {
                         <section>
                             <h3
                                 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                                <Package class="w-3.5 h-3.5" />รายการทั้งหมด
+                                <Package class="w-3.5 h-3.5" />All Items
                                 <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-0.5 rounded-full">{{
                                     issue?.items?.length ?? 0
                                 }}</span>
@@ -204,21 +204,21 @@ onMounted(async () => {
                                                     #</th>
                                                 <th
                                                     class="text-left px-4 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                                    รหัส
+                                                    Code
                                                 </th>
                                                 <th
                                                     class="text-left px-4 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                                    ชื่อสินค้า</th>
+                                                    name</th>
                                                 <th
                                                     class="text-center px-4 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">
-                                                    จำนวน
+                                                    quantity
                                                 </th>
                                                 <th
                                                     class="text-left px-4 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider hidden sm:table-cell">
-                                                    คลัง</th>
+                                                    location</th>
                                                 <th
                                                     class="text-left px-4 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider hidden md:table-cell">
-                                                    หมายเหตุ</th>
+                                                    remark</th>
                                             </tr>
                                         </thead>
                                         <tbody class="divide-y divide-gray-100">
@@ -263,30 +263,29 @@ onMounted(async () => {
 
                         <!-- Timestamps -->
                         <section class="border-t border-gray-100 pt-4">
-                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">ข้อมูลระบบ</h3>
+                            <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">System Information</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div class="flex items-center gap-2.5 text-xs text-gray-500">
                                     <Clock class="w-3.5 h-3.5 text-gray-400 shrink-0" />
-                                    <span>สร้างเมื่อ: <span class="font-semibold text-gray-700">{{
+                                    <span>Created At: <span class="font-semibold text-gray-700">{{
                                         formatDateTime(issue?.createdAt)
                                     }}</span></span>
                                 </div>
                                 <div class="flex items-center gap-2.5 text-xs text-gray-500">
                                     <Clock class="w-3.5 h-3.5 text-gray-400 shrink-0" />
-                                    <span>แก้ไขล่าสุด: <span class="font-semibold text-gray-700">{{
+                                    <span>Last Updated: <span class="font-semibold text-gray-700">{{
                                         formatDateTime(issue?.updatedAt)
                                     }}</span></span>
                                 </div>
                                 <div v-if="issue?.createdBy" class="flex items-center gap-2.5 text-xs text-gray-500">
                                     <User class="w-3.5 h-3.5 text-gray-400 shrink-0" />
-                                    <span>สร้างโดย: <span class="font-semibold text-gray-700">{{ issue.createdBy
+                                    <span>Created By: <span class="font-semibold text-gray-700">{{ issue.createdBy
                                     }}</span></span>
                                 </div>
                             </div>
                         </section>
                     </div>
 
-                    <!-- Footer -->
                     <div class="shrink-0 px-5 sm:px-6 py-4 border-t border-gray-100 bg-gray-50/50 flex justify-end">
                         <button @click="close"
                             class="px-5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-sm rounded-xl transition-colors duration-200">

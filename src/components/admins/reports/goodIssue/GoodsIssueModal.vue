@@ -290,7 +290,6 @@ onMounted(async () => {
 <template>
     <div v-if="modelValue" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-xl shadow-xl w-full max-w-6xl max-h-[90vh] overflow-y-auto">
-            <!-- Modal Header -->
             <div class="sticky top-0 bg-white border-b px-4 sm:px-6 py-4 flex justify-between items-center">
                 <div>
                     <h2 class="text-lg sm:text-xl font-semibold text-gray-800">Create New Goods Issue</h2>
@@ -303,7 +302,6 @@ onMounted(async () => {
                 </button>
             </div>
 
-            <!-- Modal Body -->
             <div class="p-4 sm:p-6">
                 <div class="flex border-b border-gray-200 mb-4">
                     <button @click="activeTab = 'search'" :class="[
@@ -325,12 +323,10 @@ onMounted(async () => {
                     </button>
                 </div>
 
-                <!-- Category Selection Section -->
                 <div v-if="activeTab === 'category'" class="mb-6 bg-gray-50 p-4 rounded-lg">
-                    <!-- Category content (same as original) -->
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
                         <label class="text-sm font-medium text-gray-700">
-                            Document Categories (เลือกหมวดหมู่ของเอกสาร)
+                            Document Categories (Select Document Category)
                             <span class="text-xs text-gray-500 ml-2">({{ selectedCategories.length }}
                                 selected)</span>
                         </label>
@@ -390,9 +386,7 @@ onMounted(async () => {
                     </div>
                 </div>
 
-                <!-- Search Section -->
                 <div v-if="activeTab === 'search'" class="mb-6 bg-gray-50 p-4 rounded-lg">
-                    <!-- Search content (same as original) -->
                     <label class="block text-sm font-medium text-gray-700 mb-2">
                         Search and Add Materials
                         <span class="text-xs text-gray-500 ml-2">(Type code or name, then click to add)</span>
@@ -469,10 +463,8 @@ onMounted(async () => {
                     </div>
                 </div>
 
-                <!-- Items Table (same as original) -->
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
-                        <!-- Table content same as original -->
                         <thead class="bg-gray-50">
                             <tr>
                                 <th
@@ -576,14 +568,12 @@ onMounted(async () => {
                     </table>
                 </div>
 
-                <!-- Summary -->
                 <div v-if="issueItems.length > 0" class="mt-4 p-3 bg-gray-50 rounded-lg">
                     <p class="text-sm text-gray-700">All Materials: <span class="font-semibold">{{ totalItems
                             }}</span> items</p>
                 </div>
             </div>
 
-            <!-- Modal Footer -->
             <div class="sticky bottom-0 bg-white border-t px-4 sm:px-6 py-4 flex justify-end gap-3">
                 <button @click="closeModal"
                     class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">

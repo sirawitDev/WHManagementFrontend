@@ -53,16 +53,12 @@ onMounted(async () => {
     <Teleport to="body">
         <Transition name="modal-fade">
             <div v-if="modelValue" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
-                <!-- Backdrop -->
                 <div class="absolute inset-0 bg-gray-950/60 backdrop-blur-sm" @click="close" />
 
-                <!-- Modal Panel -->
                 <div class="relative bg-white w-full sm:max-w-3xl sm:rounded-2xl shadow-2xl overflow-hidden flex flex-col"
                     style="max-height: 95dvh;">
-
-                    <!-- Header -->
                     <div class="shrink-0 px-5 sm:px-6 pt-5 pb-4 border-b border-gray-100"
-                        style="background: linear-gradient(135deg, #14158C 0%, #1e3a8a 50%, #1d4ed8 100%);">
+                        style="background: linear-gradient(135deg, #065f46 0%, #047857 50%, #16a34a 100%);">
                         <div class="flex items-start justify-between gap-3">
                             <div class="flex items-center gap-3">
                                 <div
@@ -71,7 +67,7 @@ onMounted(async () => {
                                 </div>
                                 <div>
                                     <p class="text-white font-bold text-lg leading-tight">รายละเอียด Goods Issue</p>
-                                    <p class="text-blue-200 text-sm font-mono mt-0.5">{{ issue?.code }}</p>
+                                    <p class="text-green-200 text-sm font-mono mt-0.5">{{ issue?.code }}</p>
                                 </div>
                             </div>
                             <button @click="close"
@@ -80,37 +76,17 @@ onMounted(async () => {
                             </button>
                         </div>
 
-                        <!-- Stats Strip -->
-                        <!-- <div class="mt-4 grid grid-cols-3 gap-2">
-                            <div class="bg-white/10 rounded-xl px-3 py-2 text-center">
-                                <p class="text-blue-200 text-xs">รายการทั้งหมด</p>
-                                <p class="text-white font-bold text-lg leading-tight">{{ issue?.items?.length ?? 0 }}
-                                </p>
-                            </div>
-                            <div class="bg-white/10 rounded-xl px-3 py-2 text-center">
-                                <p class="text-blue-200 text-xs">จำนวนรวม</p>
-                                <p class="text-white font-bold text-lg leading-tight">{{ totalItems }}</p>
-                            </div>
-                            <div class="bg-white/10 rounded-xl px-3 py-2 text-center">
-                                <p class="text-blue-200 text-xs">หมวดหมู่</p>
-                                <p class="text-white font-bold text-lg leading-tight">{{ issue?.categories?.length ?? 0
-                                }}</p>
-                            </div>
-                        </div> -->
                     </div>
 
-                    <!-- Scrollable Body -->
                     <div class="overflow-y-auto flex-1 px-5 sm:px-6 py-5 space-y-5">
-
-                        <!-- General Info -->
                         <section>
                             <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">ข้อมูลทั่วไป</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
 
                                 <div class="flex items-start gap-3 bg-gray-50 rounded-xl p-3.5">
                                     <div
-                                        class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
-                                        <Calendar class="w-4 h-4 text-blue-600" />
+                                        class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                                        <Calendar class="w-4 h-4 text-green-600" />
                                     </div>
                                     <div>
                                         <p class="text-xs text-gray-400 font-medium">วันที่ออกเอกสาร</p>
@@ -183,12 +159,11 @@ onMounted(async () => {
                             </div>
                         </section>
 
-                        <!-- Items Table -->
                         <section>
                             <h3
                                 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-2">
                                 <Package class="w-3.5 h-3.5" />รายการทั้งหมด
-                                <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-0.5 rounded-full">{{
+                                <span class="bg-green-100 text-green-700 text-xs font-bold px-2 py-0.5 rounded-full">{{
                                     issue?.items?.length ?? 0
                                 }}</span>
                             </h3>
@@ -198,7 +173,7 @@ onMounted(async () => {
                                     <table class="w-full min-w-[520px] text-sm">
                                         <thead>
                                             <tr
-                                                class="bg-gradient-to-r from-slate-50 to-blue-50 border-b border-gray-200">
+                                                class="bg-gradient-to-r from-slate-50 to-green-50 border-b border-gray-200">
                                                 <th
                                                     class="text-left px-4 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">
                                                     #</th>
@@ -223,7 +198,7 @@ onMounted(async () => {
                                         </thead>
                                         <tbody class="divide-y divide-gray-100">
                                             <tr v-for="(item, i) in issue?.items" :key="item._id"
-                                                class="hover:bg-blue-50/40 transition-colors">
+                                                class="hover:bg-green-50/40 transition-colors">
                                                 <td class="px-4 py-3 text-xs text-gray-400 font-medium">{{ i + 1 }}</td>
                                                 <td class="px-4 py-3">
                                                     <span
@@ -261,7 +236,6 @@ onMounted(async () => {
                             </div>
                         </section>
 
-                        <!-- Timestamps -->
                         <section class="border-t border-gray-100 pt-4">
                             <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">ข้อมูลระบบ</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -286,7 +260,6 @@ onMounted(async () => {
                         </section>
                     </div>
 
-                    <!-- Footer -->
                     <div class="shrink-0 px-5 sm:px-6 py-4 border-t border-gray-100 bg-gray-50/50 flex justify-end">
                         <button @click="close"
                             class="px-5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-sm rounded-xl transition-colors duration-200">

@@ -16,11 +16,9 @@ onMounted(async () => {
     await locationWhStore.fetchLocations()
 })
 
-// --- Pagination ---
 const itemsPerPage = 5
 const currentPage = ref(1)
 
-// --- Filters ---
 const searchFields = ref({
     code: '',
     goodIssueCode: '',
@@ -83,7 +81,6 @@ function goToPage(page) {
     if (page >= 1 && page <= totalPages.value) currentPage.value = page
 }
 
-// Watch filters to reset page
 function onFilterChange() {
     currentPage.value = 1
 }
@@ -101,7 +98,6 @@ function formatDate(dateStr) {
     <AdminLayout>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-5">
 
-            <!-- Header -->
             <div class="p-4 sm:p-5 text-white flex justify-between items-center header-card">
                 <div class="flex items-center gap-3">
                     <div class="icon-wrap">
@@ -125,7 +121,6 @@ function formatDate(dateStr) {
                 </button>
             </div>
 
-            <!-- Filter Panel -->
             <Transition name="slide-down">
                 <div v-if="showFilters" class="filter-panel">
                     <div class="filter-panel-header">
@@ -139,7 +134,7 @@ function formatDate(dateStr) {
                     </div>
                     <div class="filter-grid">
                         <div v-for="field in [
-                            { key: 'code', label: 'รหัส Stock', placeholder: 'SR2026...' },
+                            { key: 'code', label: 'Code', placeholder: 'SR2026...' },
                             { key: 'goodIssueCode', label: 'Good Issue Code', placeholder: 'GI...' },
                             { key: 'materialCode', label: 'รหัสวัสดุ', placeholder: '126...' },
                             { key: 'productName', label: 'ชื่อสินค้า', placeholder: 'ค้นหาสินค้า...' },
@@ -165,25 +160,23 @@ function formatDate(dateStr) {
                 </div>
             </Transition>
 
-            <!-- Table Card -->
             <div class="table-card">
 
-                <!-- Desktop Table -->
                 <div class="hidden md:block overflow-x-auto">
                     <table class="w-full text-sm">
                         <thead>
                             <tr class="table-head-row">
-                                <th class="th">#</th>
-                                <th class="th">รหัส Stock</th>
+                                <!-- <th class="th">#</th> -->
+                                <th class="th">Code Stock</th>
                                 <th class="th">Good Issue Code</th>
-                                <th class="th">รหัสวัสดุ</th>
-                                <th class="th">ชื่อสินค้า</th>
-                                <th class="th">ประเภท</th>
-                                <th class="th text-right">จำนวน</th>
-                                <th class="th text-right">สต็อกก่อน</th>
-                                <th class="th text-right">สต็อกปัจจุบัน</th>
-                                <th class="th">คลังสินค้า</th>
-                                <th class="th">วันที่</th>
+                                <th class="th">Material Code</th>
+                                <th class="th">Material Name</th>
+                                <th class="th">Type</th>
+                                <th class="th text-right">Quantity</th>
+                                <th class="th text-right">Pre Stock</th>
+                                <th class="th text-right">Cur Stock</th>
+                                <th class="th">Location</th>
+                                <th class="th">Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -200,9 +193,9 @@ function formatDate(dateStr) {
                                 :key="item._id"
                                 class="table-row"
                             >
-                                <td class="td text-slate-400 font-mono text-xs">
+                                <!-- <td class="td text-slate-400 font-mono text-xs">
                                     {{ (currentPage - 1) * itemsPerPage + idx + 1 }}
-                                </td>
+                                </td> -->
                                 <td class="td">
                                     <span class="code-badge">{{ item.code }}</span>
                                 </td>
@@ -241,7 +234,6 @@ function formatDate(dateStr) {
                     </table>
                 </div>
 
-                <!-- Mobile Cards -->
                 <div class="md:hidden space-y-3 p-4">
                     <div v-if="paginatedReports.length === 0" class="flex flex-col items-center gap-2 py-10 text-slate-400">
                         <Package class="w-10 h-10 opacity-30" />
@@ -286,7 +278,6 @@ function formatDate(dateStr) {
                     </div>
                 </div>
 
-                <!-- Pagination -->
                 <div class="pagination-bar">
                     <div class="text-xs text-slate-500">
                         แสดง {{ Math.min((currentPage - 1) * itemsPerPage + 1, filteredReports.length) }}–{{ Math.min(currentPage * itemsPerPage, filteredReports.length) }}
@@ -316,7 +307,6 @@ function formatDate(dateStr) {
 </template>
 
 <style scoped>
-/* Header */
 .header-card {
     background: linear-gradient(135deg, #14158C 0%, #1e3a8a 50%, #1d4ed8 100%);
     border-radius: 1rem;
@@ -354,7 +344,6 @@ function formatDate(dateStr) {
     border: 1.5px solid #1d4ed8;
 }
 
-/* Filter Panel */
 .filter-panel {
     background: white;
     border: 1px solid #e2e8f0;
@@ -410,7 +399,6 @@ function formatDate(dateStr) {
 }
 .clear-btn:hover { background: #fee2e2; }
 
-/* Table Card */
 .table-card {
     background: white;
     border-radius: 1rem;
@@ -434,7 +422,6 @@ function formatDate(dateStr) {
 .table-row:hover { background: #f8fafc; }
 .td { padding: 0.8rem 1rem; vertical-align: middle; }
 
-/* Badges */
 .code-badge {
     display: inline-block;
     font-size: 0.7rem; font-weight: 700; font-family: monospace;
@@ -462,7 +449,6 @@ function formatDate(dateStr) {
 }
 .empty-state { text-align: center; }
 
-/* Mobile Cards */
 .mobile-card {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
@@ -478,7 +464,6 @@ function formatDate(dateStr) {
 .stat-label { font-size: 0.65rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; }
 .stat-val { font-size: 0.85rem; font-weight: 700; color: #1e293b; margin-top: 0.1rem; }
 
-/* Pagination */
 .pagination-bar {
     display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;
     padding: 0.9rem 1.25rem;
@@ -500,7 +485,6 @@ function formatDate(dateStr) {
 .page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 .page-btn.nav { background: #f1f5f9; }
 
-/* Transitions */
 .slide-down-enter-active, .slide-down-leave-active {
     transition: all 0.25s ease;
     overflow: hidden;
